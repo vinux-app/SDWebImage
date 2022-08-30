@@ -1116,7 +1116,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "XCODE_VERSION=$(xcodebuild -version | head -n 1| awk -F ' ' '{print $2}')\nXCODE_VERSION_MAJOR=$(echo $XCODE_VERSION | awk -F '.' '{print $1}')\n\nmkdir -p $(SRCROOT)/build\ndeclare -a PLATFORMS=(\"iphoneos\" \"iphonesimulator\" \"macosx\" \"appletvos\" \"appletvsimulator\" \"watchos\" \"watchsimulator\" \"maccatalyst\")\nfor CURRENT_PLATFORM in \"${PLATFORMS[@]}\"\ndo\n    if [[ $CURRENT_PLATFORM == *\"simulator\" ]]; then\n        xcodebuild build -project \"SDWebImage.xcodeproj\" -sdk \"${CURRENT_PLATFORM}\" -scheme \"SDWebImage\" -configuration \"Debug\" -derivedDataPath \"${SRCROOT}/build/DerivedData\" CONFIGURATION_BUILD_DIR=\"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    else\n    # macOS Catalyst\n    if [[ $CURRENT_PLATFORM == \"maccatalyst\" ]]; then\n        if [[ $XCODE_VERSION_MAJOR -lt 11 ]]; then\n            # Xcode 10 does not support macOS Catalyst\n            continue\n        else\n            xcodebuild archive -project \"SDWebImage.xcodeproj\" -scheme \"SDWebImage\" -configuration \"Release\" -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst' -archivePath \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive\" -derivedDataPath \"${SRCROOT}/build/DerivedData\" SKIP_INSTALL=NO\n        fi\n    else\n        xcodebuild archive -project \"SDWebImage.xcodeproj\" -sdk \"${CURRENT_PLATFORM}\" -scheme \"SDWebImage\" -configuration \"Release\" -archivePath \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive\" SKIP_INSTALL=NO\n    fi\n    mv \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/Products/Library/Frameworks/SDWebImage.framework\" \"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    mv \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/dSYMs/SDWebImage.framework.dSYM\" \"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    rm -rf \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/\"\n    fi\ndone\n";
+			shellScript = "XCODE_VERSION=$(xcodebuild -version | head -n 1| awk -F ' ' '{print $2}')\nXCODE_VERSION_MAJOR=$(echo $XCODE_VERSION | awk -F '.' '{print $1}')\n\nmkdir -p $(SRCROOT)/build\ndeclare -a PLATFORMS=(\"iphoneos\" \"iphonesimulator\" \"macosx\" \"appletvos\" \"appletvsimulator\" \"watchos\" \"watchsimulator\" \"maccatalyst\")\nfor CURRENT_PLATFORM in \"${PLATFORMS[@]}\"\ndo\n    if [[ $CURRENT_PLATFORM == *\"simulator\" ]]; then\n        xcodebuild build -project \"SDWebImage.xcodeproj\" -sdk \"${CURRENT_PLATFORM}\" -scheme \"SDWebImage\" -configuration \"Debug\" -derivedDataPath \"${SRCROOT}/build/DerivedData\" CONFIGURATION_BUILD_DIR=\"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    else\n    # macOS Catalyst\n    if [[ $CURRENT_PLATFORM == \"maccatalyst\" ]]; then\n        if [[ $XCODE_VERSION_MAJOR -lt 11 ]]; then\n            # Xcode 10 does not support macOS Catalyst\n            continue\n        else\n            xcodebuild archive -project \"SDWebImage.xcodeproj\" -scheme \"SDWebImage\" -configuration \"Release\" -destination 'platform=macOS,arch=$(uname -m),variant=Mac Catalyst' -archivePath \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive\" -derivedDataPath \"${SRCROOT}/build/DerivedData\" SKIP_INSTALL=NO\n        fi\n    else\n        xcodebuild archive -project \"SDWebImage.xcodeproj\" -sdk \"${CURRENT_PLATFORM}\" -scheme \"SDWebImage\" -configuration \"Release\" -archivePath \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive\" SKIP_INSTALL=NO\n    fi\n    mv \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/Products/Library/Frameworks/SDWebImage.framework\" \"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    mv \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/dSYMs/SDWebImage.framework.dSYM\" \"${SRCROOT}/build/${CURRENT_PLATFORM}/\"\n    rm -rf \"${SRCROOT}/build/${CURRENT_PLATFORM}/SDWebImage.xcarchive/\"\n    fi\ndone\n";
 		};
 		326CA51422BA25F70033A92F /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1321,44 +1321,68 @@
 		326CA50D22BA14EF0033A92F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
 		326CA50E22BA14EF0033A92F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
 		4A2CAE131AB4BB5400B6BC39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				INFOPLIST_FILE = WebImage/Info.plist;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
 		4A2CAE141AB4BB5400B6BC39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				INFOPLIST_FILE = WebImage/Info.plist;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
 		53761323155AD0D5005750A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				PRODUCT_NAME = SDWebImage;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
 		53761324155AD0D5005750A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				PRODUCT_NAME = SDWebImage;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
@@ -1366,6 +1390,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA9E0C6E2195936400AFB434 /* Module-Debug.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
@@ -1373,14 +1401,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA9E0C6B2195936400AFB434 /* Module-Release.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
 		80B6DFEC2142B71600BCB334 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				INFOPLIST_FILE = WebImage/Info.plist;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvsimulator appletvos";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
@@ -1389,8 +1424,11 @@
 		80B6DFED2142B71600BCB334 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				INFOPLIST_FILE = WebImage/Info.plist;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvsimulator appletvos";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
